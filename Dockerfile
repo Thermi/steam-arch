@@ -63,11 +63,5 @@ RUN useradd -m -d $HOME -u $UID -G $GROUPS $USER
 
 USER $USER
 WORKDIR $HOME
-
-# ENV STEAM_RUNTIME 0
-# steam --reset
-# ENTRYPOINT [ "linux32", "steam" ]
-# ENTRYPOINT [ "steam" ]
-
 COPY ./launch /launch
 ENTRYPOINT [ "/launch" ]
