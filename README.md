@@ -12,6 +12,13 @@ Tested in Ubuntu 16.04 LTS (64bit) with the following GPU's:
 - [Docker](https://www.docker.com/)
 - (Optional) [Docker Compose](https://docs.docker.com/compose/)
 
+## Limitations
+
+- Currently, the version of the Nvidia's driver in this container must match the version installed on your host.
+
+   I am going to improve the `/launch` script so that it will be able to automatically detect the working version of your Nvidia driver and use it.
+   Currently the script detects only the nvidia-340 vs no-proprietary-nvidia-drivers at all.
+
 
 # Building and launching Steam
 

@@ -36,7 +36,7 @@ RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise stea
     apt-get -y upgrade && \
     apt-get -y dist-upgrade && \
     apt-get -fy install && \
-    apt-get -y install pciutils pulseaudio nvidia-current mesa-utils steam && \
+    apt-get -y install pciutils pulseaudio nvidia-340 mesa-utils steam && \
     rm -f /etc/apt/sources.list.d/tmp-steam.list && \
     rm -rf /var/lib/apt/lists
 
