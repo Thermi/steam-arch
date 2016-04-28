@@ -26,6 +26,7 @@ RUN echo -e '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d && \
     chmod +x /usr/sbin/policy-rc.d
 # ----------------------------------------------------------------------------
 
+
 # 1. Keep the image updated
 # 2. Install the dependencies
 # 3. Install the latest version of Steam
@@ -36,9 +37,33 @@ RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise stea
     apt-get -y upgrade && \
     apt-get -y dist-upgrade && \
     apt-get -fy install && \
-    apt-get -y install pciutils pulseaudio nvidia-340 mesa-utils steam && \
+    apt-get -y install binutils pciutils pulseaudio mesa-utils steam && \
     rm -f /etc/apt/sources.list.d/tmp-steam.list && \
     rm -rf /var/lib/apt/lists
+
+# COPY [ "nvidia-340-mini", "/usr/lib/nvidia-340" ]
+
+# Install NVIDIA Drivers.
+# Currently supported versions: 304, 340, 361
+ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-304/nvidia-304_304.131-0ubuntu3_i386.deb /tmp/nvidia-304.deb
+ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-340/nvidia-340_340.96-0ubuntu3_i386.deb /tmp/nvidia-340.deb
+ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-361/nvidia-361_361.42-0ubuntu2_i386.deb /tmp/nvidia-361.deb
+
+RUN cd /tmp && \
+    ar xv nvidia-304.deb data.tar.xz && \
+    tar xf data.tar.xz -C / && \
+    rm -f data.tar.xz nvidia-304.deb
+
+RUN cd /tmp && \
+    ar xv nvidia-340.deb data.tar.xz && \
+    tar xf data.tar.xz -C / && \
+    rm -f data.tar.xz nvidia-340.deb
+
+RUN cd /tmp && \
+    ar xv nvidia-361.deb data.tar.xz && \
+    tar xf data.tar.xz -C / && \
+    rm -f data.tar.xz nvidia-361.deb
+
 
 # Set the locale to en_US.UTF-8
 RUN locale-gen en_US.UTF-8 && \
@@ -57,9 +82,6 @@ ENV UID 1000
 ENV GROUPS audio,video
 ENV HOME /home/$USER
 RUN useradd -m -d $HOME -u $UID -G $GROUPS $USER
-
-# Tools which might be helpful in troubleshooting
-# RUN apt-get -y install alsa-utils mesa-utils vim less gdb strace binutils
 
 USER $USER
 WORKDIR $HOME

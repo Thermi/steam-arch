@@ -1,7 +1,76 @@
-#!/bin/sh
-set -x
+#!/bin/bash
+# This script will attempt to load one of the NVIDIA driver version which
+# present in this script, otherwise it will try to fallback to the Generic
+# OpenGL driver (libgl1-mesa-glx)
 
-# Test whether NVIDIA's libGL.so.1 is working and if it doesn't work,
-# fallback to free implementation of the OpenGL API (libgl1-mesa-glx)
-glxinfo >/dev/null 2>&1 || export LD_LIBRARY_PATH=/usr/lib/i386-linux-gnu/mesa
-steam $@
+# The list of Nvidia Supported Driver Version which present in this container
+NSDV="361 340 304"
+
+# Try to load the Generic OpenGL driver (libgl1-mesa-glx)
+# Return 0 on success
+function testGeneric {
+    export LD_LIBRARY_PATH=/usr/lib/i386-linux-gnu/mesa
+    glxinfo >/dev/null 2>&1
+    return $?
+}
+
+# Try to load the NVIDIA driver
+# Return 0 on success
+function testNvidiaVer {
+    export LD_LIBRARY_PATH=/usr/lib/nvidia-$1
+    [ -e "$LD_LIBRARY_PATH/libGL.so.1" ] && glxinfo >/dev/null 2>&1
+    return $?
+}
+
+#
+# Go through all available in this container versions of the NVIDIA drivers and
+# return the version which worked.
+# If none of the NVIDIA drivers worked, then try to load the Generic OpenGL
+# driver.
+#
+# Return 0 on success
+# Return 1 if none of the graphic drivers worked, including the Generic OpenGL
+#
+function detectNvidiaDriver {
+    echo "Attempting to load one of the supported NVIDIA drivers: "
+    for ver in $NSDV; do
+        echo -n "    Trying to load NVIDIA driver version: $ver ... "
+        testNvidiaVer $ver
+        RC=$?
+        if [ $RC -eq 0 ]; then
+            echo "SUCCESS"
+            return $ver
+        else
+            echo "FAILURE"
+        fi
+    done
+
+    echo "Attempting to load the Generic OpenGL driver ..."
+    testGeneric
+    RC=$?
+    return $RC
+}
+
+#
+# START
+#
+detectNvidiaDriver
+RC=$?
+if [ $RC -eq 0 ]; then
+    echo "NVIDIA drivers could not be loaded."
+    echo "Generic OpenGL driver will be used"
+elif [ $RC -eq 1 ]; then
+    echo "None of the supported NVIDIA drivers worked :/"
+    echo "Please try installing one of the supported NVIDIA drivers"
+    echo "Supported NVIDIA driver version are: $NSDV"
+fi
+
+export LD_LIBRARY_PATH
+echo "LD_LIBRARY_PATH is set to: $LD_LIBRARY_PATH"
+
+# This script understands the "glxdebug" argument
+if [ "$1" == "glxdebug" ]; then
+    linux32 glxgears -info
+else
+    linux32 steam $@
+fi
