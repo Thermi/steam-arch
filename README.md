@@ -64,8 +64,17 @@ The best result is when you have a similar to the following output, using the `g
 
 ```
 $ docker-compose run --rm steam glxdebug
+Attempting to load one of the supported NVIDIA drivers:
+    Trying to load NVIDIA driver version: 361 ... FAILURE
+    Trying to load NVIDIA driver version: 340 ... SUCCESS
+LD_LIBRARY_PATH is set to: /usr/lib/nvidia-340
 Running synchronized to the vertical refresh.  The framerate should be
 approximately the same as the monitor refresh rate.
+GL_RENDERER   = GeForce GTX 560 Ti/PCIe/SSE2
+GL_VERSION    = 4.4.0 NVIDIA 340.96
+GL_VENDOR     = NVIDIA Corporation
+GL_EXTENSIONS = GL_AMD_multi_draw_indirect GL_ARB_arrays_of_arrays ...
+...
 305 frames in 5.0 seconds = 60.878 FPS
 301 frames in 5.0 seconds = 60.011 FPS
 301 frames in 5.0 seconds = 60.009 FPS
