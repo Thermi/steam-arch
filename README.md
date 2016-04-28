@@ -14,10 +14,9 @@ Tested in Ubuntu 16.04 LTS (64bit) with the following GPU's:
 
 ## Limitations
 
-- Currently, the version of the Nvidia's driver in this container must match the version installed on your host.
-
-   I am going to improve the `/launch` script so that it will be able to automatically detect the working version of your Nvidia driver and use it.
-   Currently the script detects only the nvidia-340 vs no-proprietary-nvidia-drivers at all.
+- I have added the `/launch` script that will try to detect the working version of the NVIDIA drivers.
+   Currently this image supports these versions of the NVIDIA driver: 304, 340, 361.
+   It will fallback to the Generic OpenGL driver in case of failure.
 
 
 # Building and launching Steam
@@ -64,7 +63,7 @@ Also keep in mind to uncomment or/and add your devices to the `devices:` section
 The best result is when you have a similar to the following output, using the `glxgears` (part of `mesa-utils` package):
 
 ```
-$ docker-compose -f $HOME/docker/steam/docker-compose.yml run --rm --entrypoint glxgears steam
+$ docker-compose run --rm steam glxdebug
 Running synchronized to the vertical refresh.  The framerate should be
 approximately the same as the monitor refresh rate.
 305 frames in 5.0 seconds = 60.878 FPS
@@ -76,7 +75,7 @@ approximately the same as the monitor refresh rate.
 If you are getting `segmentation fault` error or Steam does not start, then you could try resetting its config:
 
 ```
-$ docker-compose -f $HOME/docker/steam/docker-compose.yml run --rm steam --reset
+$ docker-compose run --rm steam --reset
 ```
 
 # Links
