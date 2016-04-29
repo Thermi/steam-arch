@@ -25,4 +25,6 @@ services:
     environment:
       - DISPLAY=unix$DISPLAY
       - PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native
-      # - STEAM_RUNTIME=0
+      # Use Steam provided runtime, requires --reset
+      # Steam provided runtime seems to be less stable with this image
+      # - STEAM_RUNTIME=1

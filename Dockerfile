@@ -37,11 +37,13 @@ RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise stea
     apt-get -y upgrade && \
     apt-get -y dist-upgrade && \
     apt-get -fy install && \
-    apt-get -y install binutils pciutils pulseaudio mesa-utils steam && \
+    apt-get -y install binutils pciutils pulseaudio mesa-utils libcanberra-gtk-module \
+                       libopenal1 libnss3 libgconf-2-4 libxss1 libnm-glib4 libnm-util2 steam && \
     rm -f /etc/apt/sources.list.d/tmp-steam.list && \
     rm -rf /var/lib/apt/lists
 
-# COPY [ "nvidia-340-mini", "/usr/lib/nvidia-340" ]
+# Not sure whether we really need these:
+# libcurl3 libcanberra-gtk-module
 
 # Install NVIDIA Drivers.
 # Currently supported versions: 304, 340, 361
@@ -70,7 +72,7 @@ RUN locale-gen en_US.UTF-8 && \
     update-locale
 
 # Workaround missing lib in .local/share/Steam/ubuntu12_32/steamclient.so
-RUN ln -sv /lib/i386-linux-gnu/libudev.so.1 /lib/i386-linux-gnu/libudev.so.0
+RUN ln -sv libudev.so.1 /lib/i386-linux-gnu/libudev.so.0
 
 # Workaround: pulseaudio client library eager to remove /dev/shm/pulse-shm-* files created by the host,
 #             causing sound to stop working
@@ -85,5 +87,8 @@ RUN useradd -m -d $HOME -u $UID -G $GROUPS $USER
 
 USER $USER
 WORKDIR $HOME
+
+ENV STEAM_RUNTIME 0
+
 COPY ./launch /launch
 ENTRYPOINT [ "/launch" ]
