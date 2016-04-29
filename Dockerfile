@@ -78,6 +78,13 @@ RUN ln -sv libudev.so.1 /lib/i386-linux-gnu/libudev.so.0
 #             causing sound to stop working
 RUN echo "enable-shm = no" >> /etc/pulse/client.conf
 
+# Workaround: Ubuntu 16.04 doesn't have libgcrypt11, so we take it from trusty
+# Required by Half-Life based games
+ADD http://archive.ubuntu.com/ubuntu/pool/main/libg/libgcrypt11/libgcrypt11_1.5.3-2ubuntu4_i386.deb /tmp/libgcrypt11.deb
+RUN cd /tmp && \
+    dpkg -i libgcrypt11.deb && \
+    rm -f libgcrypt11.deb
+
 # Create a user
 ENV USER user
 ENV UID 1000
