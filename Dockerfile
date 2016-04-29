@@ -38,7 +38,7 @@ RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise stea
     apt-get -y dist-upgrade && \
     apt-get -fy install && \
     apt-get -y install binutils pciutils pulseaudio mesa-utils libcanberra-gtk-module \
-                       libopenal1 libnss3 libgconf-2-4 libxss1 libnm-glib4 libnm-util2 steam && \
+                       libopenal1 libnss3 libgconf-2-4 libxss1 libnm-glib4 libnm-util2 libglu1-mesa steam && \
     rm -f /etc/apt/sources.list.d/tmp-steam.list && \
     rm -rf /var/lib/apt/lists
 
