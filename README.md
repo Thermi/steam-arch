@@ -46,12 +46,11 @@ docker build -t andrey01/steam .
 
 ## Launch the Steam in Docker
 
-You can drop the following aliases to your ~/.bash_aliases
+You can use the following shortcut function and place it to your `~/.bash_aliases` file
 
 ```
-alias docker="sudo docker"
-alias docker-compose="sudo docker-compose"
-alias steam="docker-compose -f $HOME/docker/steam/docker-compose.yml run --rm steam"
+function docker_helper() { (cd ~/docker/$1; docker-compose run --rm "$@" & disown) }
+function steam() { (docker_helper $FUNCNAME $@) }
 ```
 
 Then just issue "steam" command to run Steam in docker.
