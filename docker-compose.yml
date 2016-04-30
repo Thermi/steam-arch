@@ -19,7 +19,8 @@ services:
       - /dev/nvidia0
       - /dev/nvidiactl
       - /dev/nvidia-uvm
-      # - /dev/nvidia-modeset
+      # uncomment this when running NVIDIA Driver >= 361
+      - /dev/nvidia-modeset
       - /dev/dri
       # - /dev/snd
     environment:

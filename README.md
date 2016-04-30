@@ -18,6 +18,8 @@ Tested in Ubuntu 16.04 LTS (64bit) with the following GPU's:
    Currently this image supports these versions of the NVIDIA driver: 304, 340, 361.
    It will fallback to the Generic OpenGL driver in case of failure.
 
+- Do not forget to pass host device `/dev/nvidia-modeset` to a container when running with NVIDIA driver >= 361.
+
 
 # Building and launching Steam
 
