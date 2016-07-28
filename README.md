@@ -14,6 +14,26 @@ Tested in Ubuntu 16.04 LTS (64bit) with the following GPU's:
 
 ## Limitations
 
+- The version of your Nvidia drivers should match the ones in Dockerfile used to build this image
+
+
+## Known issues
+
+- Steam is working only with the 32-bit Nvidia drivers
+
+- CS:GO (csgo_linux64) is working only with the 64-bit Nvidia drivers
+
+To run CS:GO, you will need to download and extract the 64-bit Nvidia drivers while Steam is running:
+
+```
+docker exec -ti steam bash
+root@steam-container:~# curl -o /tmp/nvidia-361.deb http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-361/nvidia-361_361.42-0ubuntu2_amd64.deb
+root@steam-container:~# cd /tmp && ar xv nvidia-361.deb data.tar.xz && tar xf data.tar.xz -C / && rm -f data.tar.xz nvidia-361.deb
+```
+
+
+## Notes
+
 - I have added the `/launch` script that will try to detect the working version of the NVIDIA drivers.
    Currently this image supports these versions of the NVIDIA driver: 304, 340, 361.
    It will fallback to the Generic OpenGL driver in case of failure.
@@ -22,18 +42,6 @@ Tested in Ubuntu 16.04 LTS (64bit) with the following GPU's:
 
 
 # Building and launching Steam
-
-## Create 32bit image
-
-Create 32-bit Ubuntu 16.04 LTS (xenial) image
-
-```
-sudo apt-get -y install debootstrap
-sudo debootstrap --arch=i386 xenial /tmp/xenial-chroot http://archive.ubuntu.com/ubuntu
-sudo tar -C /tmp/xenial-chroot -c . | docker import - xenial32
-sudo rm -rf /tmp/xenial-chroot
-docker tag xenial32 andrey01/xenial32:latest
-```
 
 ## Build Steam Docker image
 
@@ -49,8 +57,8 @@ docker build -t andrey01/steam .
 You can use the following shortcut function and place it to your `~/.bash_aliases` file
 
 ```
-function docker_helper() { (cd ~/docker/$1; docker-compose run --rm "$@" & disown) }
-function steam() { (docker_helper $FUNCNAME $@) }
+function docker_helper() { { pushd ~/docker/$1; docker-compose rm -fa "$1"; docker-compose run -d --name "$1" "$@"; popd; } }
+function steam() { { docker_helper $FUNCNAME $@; } }
 ```
 
 Then just issue "steam" command to run Steam in docker.

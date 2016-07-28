@@ -70,7 +70,7 @@ echo "LD_LIBRARY_PATH is set to: $LD_LIBRARY_PATH"
 
 # This script understands the "glxdebug" argument
 if [ "$1" == "glxdebug" ]; then
-    linux32 glxgears -info
+    glxgears -info
 else
-    linux32 steam $@
+    steam $@
 fi
