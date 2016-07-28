@@ -19,7 +19,7 @@ Tested in Ubuntu 16.04 LTS (64bit) with the following GPU's:
 
 ## Known issues
 
-- Steam is working only with the 32-bit Nvidia drivers
+- Steam is working only with the 32-bit Nvidia drivers (which is in this image already)
 
 - CS:GO (csgo_linux64) is working only with the 64-bit Nvidia drivers
 
