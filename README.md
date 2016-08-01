@@ -14,32 +14,8 @@ Tested in Ubuntu 16.04 LTS (64bit) with the following GPU's:
 
 ## Limitations
 
-- The version of your Nvidia drivers should match the ones in Dockerfile used to build this image
-
-
-## Known issues
-
-- Steam is working only with the 32-bit Nvidia drivers (which is in this image already)
-
-- CS:GO (csgo_linux64) is working only with the 64-bit Nvidia drivers
-
-To run CS:GO, you will need to download and extract the 64-bit Nvidia drivers while Steam is running:
-
-```
-docker exec -ti steam bash
-root@steam-container:~# curl -o /tmp/nvidia-361.deb http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-361/nvidia-361_361.42-0ubuntu2_amd64.deb
-root@steam-container:~# cd /tmp && ar xv nvidia-361.deb data.tar.xz && tar xf data.tar.xz -C / && rm -f data.tar.xz nvidia-361.deb
-```
-
-
-## Notes
-
-- I have added the `/launch` script that will try to detect the working version of the NVIDIA drivers.
-   Currently this image supports these versions of the NVIDIA driver: 304, 340, 361.
-   It will fallback to the Generic OpenGL driver in case of failure.
-
-- Do not forget to pass host device `/dev/nvidia-modeset` to a container when running with NVIDIA driver >= 361.
-
+- The version of your Nvidia drivers should match the ones in Dockerfile used to build this image.  
+  Currently this image supports these versions of the NVIDIA driver: 304, 340, 361.
 
 # Building and launching Steam
 
@@ -70,25 +46,6 @@ You might want to modify the `docker-compose.yml` in case of problems, the file 
 Also keep in mind to uncomment or/and add your devices to the `devices:` section there.
 
 The best result is when you have a similar to the following output, using the `glxgears` (part of `mesa-utils` package):
-
-```
-$ docker-compose run --rm steam glxdebug
-Attempting to load one of the supported NVIDIA drivers:
-    Trying to load NVIDIA driver version: 361 ... FAILURE
-    Trying to load NVIDIA driver version: 340 ... SUCCESS
-LD_LIBRARY_PATH is set to: /usr/lib/nvidia-340
-Running synchronized to the vertical refresh.  The framerate should be
-approximately the same as the monitor refresh rate.
-GL_RENDERER   = GeForce GTX 560 Ti/PCIe/SSE2
-GL_VERSION    = 4.4.0 NVIDIA 340.96
-GL_VENDOR     = NVIDIA Corporation
-GL_EXTENSIONS = GL_AMD_multi_draw_indirect GL_ARB_arrays_of_arrays ...
-...
-305 frames in 5.0 seconds = 60.878 FPS
-301 frames in 5.0 seconds = 60.011 FPS
-301 frames in 5.0 seconds = 60.009 FPS
-305 frames in 5.0 seconds = 60.807 FPS
-```
 
 If you are getting `segmentation fault` error or Steam does not start, then you could try resetting its config:
 

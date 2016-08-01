@@ -39,24 +39,16 @@ RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise stea
 # libcurl3 libcanberra-gtk-module
 
 # Install NVIDIA Drivers.
-# Currently supported versions: 304, 340, 361
+# Currently supported versions: 304, 340, 361 (both 32 & 64 bit)
 # TODO: use debian mirrors if possible?
 
-# amd64 (when Steam will be 64-bit)
-# ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-304/nvidia-304_304.131-0ubuntu4_amd64.deb /tmp/nvidia-304.deb
-# ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-340/nvidia-340_340.96-0ubuntu4_amd64.deb /tmp/nvidia-340.deb
-# ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-361/nvidia-361_361.42-0ubuntu2_amd64.deb /tmp/nvidia-361.deb
-
-# i386 (Steam is 32-bit app currently :-/)
-ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-304/nvidia-304_304.131-0ubuntu3_i386.deb /tmp/nvidia-304.deb
-ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-340/nvidia-340_340.96-0ubuntu3_i386.deb /tmp/nvidia-340.deb
-ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-361/nvidia-361_361.42-0ubuntu2_i386.deb /tmp/nvidia-361.deb
+# amd64 (comes along with the i386)
+ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-304/nvidia-304_304.131-0ubuntu4_amd64.deb /tmp/nvidia-304.deb
+ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-340/nvidia-340_340.96-0ubuntu6_amd64.deb /tmp/nvidia-340.deb
+ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-361/nvidia-361_361.42-0ubuntu2_amd64.deb /tmp/nvidia-361.deb
 
 # Newer
-# ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-304/nvidia-304_304.131-0ubuntu4_i386.deb /tmp/nvidia-304.deb
-# ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-340/nvidia-340_340.96-0ubuntu6_i386.deb /tmp/nvidia-340.deb
-# ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-361/nvidia-361_361.45.11-0ubuntu4_i386.deb /tmp/nvidia-361.deb
-
+# ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-361/nvidia-361_361.45.11-0ubuntu4_amd64.deb /tmp/nvidia-361.deb
 
 RUN cd /tmp && \
     ar xv nvidia-304.deb data.tar.xz && \
@@ -112,5 +104,10 @@ WORKDIR $HOME
 
 ENV STEAM_RUNTIME 0
 
-COPY ./launch /launch
-ENTRYPOINT [ "/launch" ]
+#
+# This part is very important, since this lets Steam choose proper nvidia drivers (32 or 64 bit)
+#
+# echo "$(find /usr/lib /usr/lib32 -maxdepth 1 -type d -name "*nvidia*" -print0 |tr '\0' ':' ; echo)"
+ENV LD_LIBRARY_PATH "/usr/lib/nvidia-361:/usr/lib/nvidia-361-prime:/usr/lib/nvidia-340:/usr/lib/nvidia-340-prime:/usr/lib/nvidia-304:/usr/lib32/nvidia-361:/usr/lib32/nvidia-340:/usr/lib32/nvidia-304"
+
+ENTRYPOINT [ "steam" ]
