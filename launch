@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# So that errors will be visible on `docker logs -f steam` command
+exec 2>&1
+
+#
+# befriend with grsec
+#
+# TODO: find a way how to set these attributes dynamically,
+#       since currently it will require Steam restart when new content is obtained.
+if [ -f /proc/sys/kernel/grsecurity/tpe_gid ]; then
+  groupadd -r -g $(cat /proc/sys/kernel/grsecurity/tpe_gid) grsec-tpe
+  usermod -aG grsec-tpe $USER
+  setfattr -n user.pax.flags -v "m" \
+            /lib/i386-linux-gnu/ld-2.19.so \
+            $HOME/.local/share/Steam/ubuntu12_32/steam \
+            $HOME/.local/share/Steam/ubuntu12_32/steamwebhelper \
+            $HOME/.local/share/Steam/steamapps/common/Half-Life/hl_linux
+  # paxctl -c -v -m /lib/i386-linux-gnu/ld-2.19.so
+fi
+
+#
+# This part is very important, since this lets Steam choose proper nvidia drivers (32 or 64 bit)
+#
+# echo "$(find /usr/lib /usr/lib32 -maxdepth 1 -type d -name "*nvidia*" -print0 |tr '\0' ':' ; echo)"
+export LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:/usr/lib/i386-linux-gnu:/usr/lib/nvidia-361:/usr/lib/nvidia-361-prime:/usr/lib/nvidia-340:/usr/lib/nvidia-340-prime:/usr/lib/nvidia-304:/usr/lib32/nvidia-361:/usr/lib32/nvidia-340:/usr/lib32/nvidia-304:/usr/lib/x86_64-linux-gnu:/usr/lib/i386-linux-gnu"
+
+exec su -p user -c "steam $@"

@@ -16,11 +16,11 @@ services:
       - data:/home
       # - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro
     devices:
-      - /dev/nvidia0
-      - /dev/nvidiactl
-      - /dev/nvidia-uvm
+      # - /dev/nvidia0
+      # - /dev/nvidiactl
+      # - /dev/nvidia-uvm
       # uncomment this when running NVIDIA Driver >= 361
-      - /dev/nvidia-modeset
+      # - /dev/nvidia-modeset
       - /dev/dri
       # - /dev/snd
     environment:

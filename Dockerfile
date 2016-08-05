@@ -32,7 +32,7 @@ RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise stea
                        libnm-glib4:i386 libnm-util2:i386 libusb-1.0-0:i386 \
                        libnss3:i386 libgconf-2-4:i386 libxss1:i386 libcurl3:i386 \
                        libv8-dev:i386 \
-                       libcanberra-gtk-module:i386 libpulse0:i386 && \
+                       libcanberra-gtk-module:i386 libpulse0:i386 attr && \
     rm -f /etc/apt/sources.list.d/tmp-steam.list && \
     rm -rf /var/lib/apt/lists
 
@@ -92,7 +92,6 @@ RUN sed -i.orig '/^# en_US.UTF-8.*/s/^#.//g' /etc/locale.gen && \
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-
 # Create a user
 ENV USER user
 ENV UID 1000
@@ -100,15 +99,9 @@ ENV GROUPS audio,video
 ENV HOME /home/$USER
 RUN useradd -m -d $HOME -u $UID -G $GROUPS $USER
 
-USER $USER
 WORKDIR $HOME
 
 ENV STEAM_RUNTIME 0
 
-#
-# This part is very important, since this lets Steam choose proper nvidia drivers (32 or 64 bit)
-#
-# echo "$(find /usr/lib /usr/lib32 -maxdepth 1 -type d -name "*nvidia*" -print0 |tr '\0' ':' ; echo)"
-ENV LD_LIBRARY_PATH "/usr/lib/nvidia-361:/usr/lib/nvidia-361-prime:/usr/lib/nvidia-340:/usr/lib/nvidia-340-prime:/usr/lib/nvidia-304:/usr/lib32/nvidia-361:/usr/lib32/nvidia-340:/usr/lib32/nvidia-304"
-
-ENTRYPOINT [ "steam" ]
+COPY ./launch /launch
+ENTRYPOINT [ "/bin/sh", "/launch" ]

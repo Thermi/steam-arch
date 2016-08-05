@@ -53,6 +53,27 @@ If you are getting `segmentation fault` error or Steam does not start, then you 
 $ docker-compose run --rm steam --reset
 ```
 
+## Grsecurity notes
+
+### grsec: TPE
+
+Trusted Path Execution (TPE)
+
+This Steam docker image is working with the grsecurity patched kernel,  
+however it requires the following grsecurity flag enabled:
+
+- CONFIG_GRKERNSEC_TPE_INVERT
+- CONFIG_GRKERNSEC_TPE_TRUSTED_GID
+
+so that `/proc/sys/kernel/grsecurity/tpe_gid` is accessible for read by root.
+
+
+### grsec: PaX
+
+Currently it supports Half-Life (CS, ...), CS:GO as described in `launch` file 
+that you can edit yourself and rebuild this docker image.
+
+
 # Links
 
 Below is just bunch of links, someone might find them useful
