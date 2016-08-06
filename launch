@@ -47,7 +47,7 @@ fi
 export LD_LIBRARY_PATH="$(echo /h{1..20}_{32,64} | tr ' ' ':')"
 
 # Use libgcrypt provided by the Steam docker image
-export LD_PRELOAD="/lib/i386-linux-gnu/libgcrypt.so.11:/lib/x86_64-linux-gnu/libgcrypt.so.11"
+export LD_PRELOAD="/lib/i386-linux-gnu/libgcrypt.so.11 /lib/x86_64-linux-gnu/libgcrypt.so.11"
 
 #
 # In order to avoid the inconsistency error, when launching `csgo_linux64`
@@ -55,6 +55,6 @@ export LD_PRELOAD="/lib/i386-linux-gnu/libgcrypt.so.11:/lib/x86_64-linux-gnu/lib
 # Hint: to find out what's wrong, use `strace`
 #
 # 1) openSUSE's libpulsecommon-7.0.so vs Ubuntu's libpulsecommon-5.0.so
-export LD_PRELOAD="$LD_PRELOAD:$(find /h{1..20}_{32,64} -name "*libpulsecommon*" 2>/dev/null)"
+export LD_PRELOAD="$LD_PRELOAD $(find /h{1..20}_{32,64} -name "*libpulsecommon*" 2>/dev/null)"
 
 su -p user -c "steam $@"
