@@ -39,11 +39,8 @@ if [ -e /dev/nvidiactl ]; then
 fi
 
 #
-# This part is very important,
-# since this lets Steam choose proper nvidia drivers (32 or 64 bit)
+# Try to load host's libGL (generic or Nvidia 32/64-bit) drivers
 #
-# Make sure the Steam docker image's paths are coming first
-# and then the hosts's (/h1..20) mounted ones
 export LD_LIBRARY_PATH="$(echo /h{1..20}_{32,64} | tr ' ' ':')"
 
 # Use libgcrypt provided by the Steam docker image
@@ -54,7 +51,7 @@ export LD_PRELOAD="/lib/i386-linux-gnu/libgcrypt.so.11 /lib/x86_64-linux-gnu/lib
 # Inconsistency detected by ld.so: dl-open.c: 689: _dl_open: Assertion `_dl_debug_initialize (0, args.nsid)->r_state == RT_CONSISTENT' failed!
 # Hint: to find out what's wrong, use `strace`
 #
-# 1) openSUSE's libpulsecommon-7.0.so vs Ubuntu's libpulsecommon-5.0.so
+# 1) Try to load host's Pulse library instead of the one from this image
 export LD_PRELOAD="$LD_PRELOAD $(find /h{1..20}_{32,64} -name "*libpulsecommon*" 2>/dev/null)"
 
 su -p user -c "steam $@"
