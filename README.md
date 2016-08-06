@@ -1,6 +1,7 @@
 # Steam in Docker
 
-Tested in Ubuntu 16.04 LTS (64bit) with the following GPU's:
+Tested in Ubuntu 16.04 LTS (64bit) and openSUSE Leap 42.1
+with the following GPU's:
 
 - Intel HD Graphics 3000
 - Intel HD Graphics 4400
@@ -12,10 +13,6 @@ Tested in Ubuntu 16.04 LTS (64bit) with the following GPU's:
 - [Docker](https://www.docker.com/)
 - (Optional) [Docker Compose](https://docs.docker.com/compose/)
 
-## Limitations
-
-- The version of your Nvidia drivers should match the ones in Dockerfile used to build this image.  
-  Currently this image supports these versions of the NVIDIA driver: 304, 340, 361.
 
 # Building and launching Steam
 

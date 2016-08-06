@@ -39,33 +39,6 @@ RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise stea
 # Not sure whether we really need these:
 # libcurl3 libcanberra-gtk-module
 
-# Install NVIDIA Drivers.
-# Currently supported versions: 304, 340, 361 (both 32 & 64 bit)
-# TODO: use debian mirrors if possible?
-
-# amd64 (comes along with the i386)
-ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-304/nvidia-304_304.131-0ubuntu4_amd64.deb /tmp/nvidia-304.deb
-ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-340/nvidia-340_340.96-0ubuntu6_amd64.deb /tmp/nvidia-340.deb
-ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-361/nvidia-361_361.42-0ubuntu2_amd64.deb /tmp/nvidia-361.deb
-
-# Newer
-# ADD http://archive.ubuntu.com/ubuntu/pool/restricted/n/nvidia-graphics-drivers-361/nvidia-361_361.45.11-0ubuntu4_amd64.deb /tmp/nvidia-361.deb
-
-RUN cd /tmp && \
-    ar xv nvidia-304.deb data.tar.xz && \
-    tar xf data.tar.xz -C / && \
-    rm -f data.tar.xz nvidia-304.deb
-
-RUN cd /tmp && \
-    ar xv nvidia-340.deb data.tar.xz && \
-    tar xf data.tar.xz -C / && \
-    rm -f data.tar.xz nvidia-340.deb
-
-RUN cd /tmp && \
-    ar xv nvidia-361.deb data.tar.xz && \
-    tar xf data.tar.xz -C / && \
-    rm -f data.tar.xz nvidia-361.deb
-
 # Workaround missing lib in .local/share/Steam/ubuntu12_32/steamclient.so
 RUN ln -sv libudev.so.1 /lib/i386-linux-gnu/libudev.so.0
 
@@ -104,4 +77,4 @@ WORKDIR $HOME
 ENV STEAM_RUNTIME 0
 
 COPY ./launch /launch
-ENTRYPOINT [ "/bin/sh", "/launch" ]
+ENTRYPOINT [ "/bin/bash", "/launch" ]

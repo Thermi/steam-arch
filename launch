@@ -1,13 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 
-# So that errors will be visible on `docker logs -f steam` command
+#
+# Make errors visible upon `docker logs -f steam` command
+#
 exec 2>&1
 
 #
-# befriend with grsec
+# Befriend with grsecurity patched Linux kernel
 #
 # TODO: find a way how to set these attributes dynamically,
-#       since currently it will require Steam restart when new content is obtained.
+#       since this currently requires a Steam restart
+#       when new content is obtained.
 if [ -f /proc/sys/kernel/grsecurity/tpe_gid ]; then
   groupadd -r -g $(cat /proc/sys/kernel/grsecurity/tpe_gid) grsec-tpe
   usermod -aG grsec-tpe $USER
@@ -21,11 +24,26 @@ if [ -f /proc/sys/kernel/grsecurity/tpe_gid ]; then
 fi
 
 #
-# This part is very important, since this lets Steam choose proper nvidia drivers (32 or 64 bit)
+# Add a user to a detected "video" group
+# so that it can access the nvidia devices
 #
-# echo "$(find /usr/lib /usr/lib32 -maxdepth 1 -type d -name "*nvidia*" -print0 |tr '\0' ':' ; echo)"
-# export LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:/usr/lib/i386-linux-gnu:/usr/lib/nvidia-361:/usr/lib/nvidia-361-prime:/usr/lib/nvidia-340:/usr/lib/nvidia-340-prime:/usr/lib/nvidia-304:/usr/lib32/nvidia-361:/usr/lib32/nvidia-340:/usr/lib32/nvidia-304:/usr/lib/x86_64-linux-gnu:/usr/lib/i386-linux-gnu"
-export LD_LIBRARY_PATH="/usr/lib/nvidia-361:/usr/lib/nvidia-361-prime:/usr/lib/nvidia-340:/usr/lib/nvidia-340-prime:/usr/lib/nvidia-304:/usr/lib32/nvidia-361:/usr/lib32/nvidia-340:/usr/lib32/nvidia-304:/usr/lib/x86_64-linux-gnu:/usr/lib/i386-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/i386-linux-gnu"
+if [ -e /dev/nvidiactl ]; then
+  GID=$(stat -c '%g' /dev/nvidiactl)
+  groupadd -r -g $GID nvidia1
+  if [ $? -eq 0 ]; then
+    usermod -aG nvidia1 $USER
+  else
+    GROUP=$(stat -c '%G' /dev/nvidiactl)
+    usermod -aG $GROUP $USER
+  fi
+fi
+
+#
+# This part is very important,
+# since this lets Steam choose proper nvidia drivers (32 or 64 bit)
+#
+# Make sure the Steam docker image's paths are coming first
+# and then the hosts's (/h1..20) mounted ones
+export LD_LIBRARY_PATH="/usr/lib:/lib/i386-linux-gnu:/lib/x86_64-linux-gnu:$(echo /h{1..20} | tr ' ' ':')"
 
 su -p user -c "steam $@"
-# exec su -p user -c "steam $@"
