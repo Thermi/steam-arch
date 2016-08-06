@@ -59,19 +59,15 @@ $ docker-compose run --rm steam --reset
 
 Trusted Path Execution (TPE)
 
-This Steam docker image is working with the grsecurity patched kernel,  
-however it requires the following grsecurity flag enabled:
-
-- CONFIG_GRKERNSEC_TPE_INVERT
-- CONFIG_GRKERNSEC_TPE_TRUSTED_GID
-
-so that `/proc/sys/kernel/grsecurity/tpe_gid` is accessible for read by root.
+This Steam docker image is working with the grsecurity patched kernel.
+It only needs a `/proc/sys/kernel/grsecurity/tpe_gid` accessible by root for read.
 
 
 ### grsec: PaX
 
-Currently it supports Half-Life (CS, ...), CS:GO as described in `launch` file 
-that you can edit yourself and rebuild this docker image.
+It is also working with PaX part of the grsecurity.  
+I have tested it with Half-Life games like CS 1.6, and CS:GO.  
+Please refer to the `launch` file if grsecurity is blocking some executable or a library.  
 
 
 # Links
@@ -87,3 +83,5 @@ Below is just bunch of links, someone might find them useful
 - http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
 
 - http://repo.steamstatic.com/steam/
+
+- https://grsecurity.net/
