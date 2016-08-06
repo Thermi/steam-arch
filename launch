@@ -44,6 +44,15 @@ fi
 #
 # Make sure the Steam docker image's paths are coming first
 # and then the hosts's (/h1..20) mounted ones
-export LD_LIBRARY_PATH="/usr/lib:/lib/i386-linux-gnu:/lib/x86_64-linux-gnu:$(echo /h{1..20} | tr ' ' ':')"
+export LD_LIBRARY_PATH="/lib:/lib64:/lib/i386-linux-gnu:/lib/x86_64-linux-gnu:$(echo /h{1..20}_{32,64} | tr ' ' ':')"
+# GOOD export LD_LIBRARY_PATH="/lib/i386-linux-gnu:/lib/x86_64-linux-gnu:$(echo /h{1..20}_{32,64} | tr ' ' ':')"
+
+#
+# In order to avoid the inconsistency error, when launching `csgo_linux64`
+# Inconsistency detected by ld.so: dl-open.c: 689: _dl_open: Assertion `_dl_debug_initialize (0, args.nsid)->r_state == RT_CONSISTENT' failed!
+# Hint: to find out what's wrong, use `strace`
+#
+# 1) openSUSE's libpulsecommon-7.0.so vs Ubuntu's libpulsecommon-5.0.so
+export LD_PRELOAD=$(find /h{1..20}_{32,64} -name "*libpulsecommon*" 2>/dev/null)
 
 su -p user -c "steam $@"

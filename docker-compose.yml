@@ -16,21 +16,21 @@ services:
       - data:/home
       # - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro
       # Ubuntu's NVIDIA driver:
-      - /usr/lib/nvidia-361-prime:/h1:ro
-      - /usr/lib/nvidia-340:/h2:ro
-      - /usr/lib/nvidia-340-prime:/h3:ro
-      - /usr/lib/nvidia-304:/h4:ro
-      - /usr/lib32/nvidia-361:/h5:ro
-      - /usr/lib32/nvidia-340:/h6:ro
-      - /usr/lib32/nvidia-304:/h7:ro
-      # openSUSE's NVIDIA driver:
-      - /usr/X11R6/lib:/h10:ro
-      - /usr/X11R6/lib64:/h11:ro
-      - /usr/lib:/h12:ro
-      - /usr/lib64:/h13:ro
+      - /usr/lib/nvidia-361-prime:/h1_64:ro
+      - /usr/lib/nvidia-340:/h2_64:ro
+      - /usr/lib/nvidia-340-prime:/h3_64:ro
+      - /usr/lib/nvidia-304:/h4_64:ro
+      - /usr/lib32/nvidia-361:/h5_32:ro
+      - /usr/lib32/nvidia-340:/h6_32:ro
+      - /usr/lib32/nvidia-304:/h7_32:ro
       # Ubuntu's generic libGL:
-      - /usr/lib/x86_64-linux-gnu:/h8:ro
-      - /usr/lib/i386-linux-gnu:/h9:ro
+      - /usr/lib/x86_64-linux-gnu:/h8_64:ro
+      - /usr/lib/i386-linux-gnu:/h9_32:ro
+      # openSUSE's NVIDIA driver:
+      - /usr/X11R6/lib:/h10_32:ro
+      - /usr/X11R6/lib64:/h11_64:ro
+      - /usr/lib:/h12_32:ro
+      - /usr/lib64:/h13_64:ro
     devices:
       - /dev/nvidia0
       - /dev/nvidiactl
