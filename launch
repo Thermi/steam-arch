@@ -39,13 +39,13 @@ if [ -e /dev/nvidiactl ]; then
   fi
 fi
 
+# Use libgcrypt provided by the Steam docker image (needed by HL1 engine games)
+export LD_PRELOAD="/lib/i386-linux-gnu/libgcrypt.so.11 /lib/x86_64-linux-gnu/libgcrypt.so.11"
+
 #
 # Try to load host's libGL (generic or Nvidia 32/64-bit) drivers
 #
-export LD_LIBRARY_PATH="$(echo /h{1..20}_{32,64} | tr ' ' ':')"
-
-# Use libgcrypt provided by the Steam docker image
-export LD_PRELOAD="/lib/i386-linux-gnu/libgcrypt.so.11 /lib/x86_64-linux-gnu/libgcrypt.so.11"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$(echo /h{1..20}_{32,64} | tr ' ' ':')"
 
 #
 # In order to avoid the inconsistency error, when launching `csgo_linux64`
@@ -53,6 +53,6 @@ export LD_PRELOAD="/lib/i386-linux-gnu/libgcrypt.so.11 /lib/x86_64-linux-gnu/lib
 # Hint: to find out what's wrong, use `strace`
 #
 # 1) Try to load host's Pulse library instead of the one from this image
-export LD_PRELOAD="$LD_PRELOAD $(find /h{1..20}_{32,64} -name "*libpulsecommon*" 2>/dev/null)"
+export LD_PRELOAD="$LD_PRELOAD $(find /h{1..20}_{32,64} -type f -name "*libpulsecommon*" 2>/dev/null)"
 
 su -p user -c "steam $@"
