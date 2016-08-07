@@ -23,7 +23,7 @@ And few Pros from my PoV:
 Suggestions / PR's are welcomed!
 
 
-## What tested?
+## What's tested?
 
 The following games have been tested:
 
