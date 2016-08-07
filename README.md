@@ -6,7 +6,7 @@ Some people asked me why would someone want to have Steam in a Docker container?
 
 Few main points which pushed me making this Docker container:
 
-1. I want to set-up more fences when running the code I don't/can't trust;
+1. I want to set-up more fences when running the code I don't/can't trust; [issue 3671](https://github.com/valvesoftware/steam-for-linux/issues/3671)
 
 2. I don't want to spend time on figuring out how to install Steam (what deps) in a non-Debian (or non-SteamOS) based distro;
 
