@@ -12,7 +12,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/machine-id:/etc/machine-id:ro
       - $XDG_RUNTIME_DIR/pulse:/run/user/1000/pulse
-      - /dev/shm:/dev/shm
       - data:/home
       # - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro
       # Ubuntu's NVIDIA driver:
@@ -45,3 +44,4 @@ services:
       # Use Steam provided runtime, requires --reset
       # Steam provided runtime seems to be less stable with this image
       # - STEAM_RUNTIME=1
+    shm_size: 4G
