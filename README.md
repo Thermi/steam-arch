@@ -1,5 +1,30 @@
 # Steam in Docker
 
+## Why?
+
+Some people asked me why would someone want to have Steam in a Docker container?
+
+Few main points which pushed me making this Docker container:
+
+1. I want to set-up more fences when running the code I don't/can't trust;
+
+2. I don't want to spend time on figuring out how to install Steam (what deps) in a non-Debian (or non-SteamOS) based distro;
+
+3. I like cleanliness: I can erase Steam and all its dependencies in a matter of seconds;
+
+
+And few Pros from my PoV:
+
+- I can have Steam on my Ubuntu/openSUSE/[put any other distro I will want to use] in a short time that Docker takes when downloads this Steam container;
+
+- Since Steam is meant to run in Debian (SteamOS) based distro, it is not a problem anymore, since it is in a container now.
+
+
+Suggestions / PR's are welcomed!
+
+
+## Tested with
+
 Tested in Ubuntu 16.04 LTS (64bit) and openSUSE Leap 42.1
 with the following GPU's:
 
