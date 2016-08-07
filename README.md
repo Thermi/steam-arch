@@ -23,7 +23,13 @@ And few Pros from my PoV:
 Suggestions / PR's are welcomed!
 
 
-## Tested with
+## What tested?
+
+The following games have been tested:
+
+- Half-Life: Counter-Strike 1.6
+- Counter-Strike: Global Offensive
+- Iron Snout
 
 Tested in Ubuntu 16.04 LTS (64bit) and openSUSE Leap 42.1
 with the following GPU's:
