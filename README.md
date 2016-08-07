@@ -27,6 +27,13 @@ docker build -t andrey01/steam .
 
 ## Launch the Steam in Docker
 
+You may need to allow your user making local connections to X server,
+which can be achieved with this command:
+
+```
+xhost +SI:localuser:$(id -un)
+```
+
 You can use the following shortcut function and place it to your `~/.bash_aliases` file
 
 ```
