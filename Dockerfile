@@ -42,10 +42,6 @@ RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise stea
 # Workaround missing lib in .local/share/Steam/ubuntu12_32/steamclient.so
 RUN ln -sv libudev.so.1 /lib/i386-linux-gnu/libudev.so.0
 
-# Workaround: pulseaudio client library eager to remove /dev/shm/pulse-shm-* files created by the host,
-#             causing sound to stop working
-RUN echo "enable-shm = no" >> /etc/pulse/client.conf
-
 # Workaround: Ubuntu 16.04 doesn't have libgcrypt11, so we take it from trusty
 # Required by Half-Life based games
 # TODO: use debian mirrors if possible?
