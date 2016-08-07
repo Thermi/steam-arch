@@ -19,7 +19,8 @@ if [ -f /proc/sys/kernel/grsecurity/tpe_gid ]; then
             $HOME/.local/share/Steam/ubuntu12_32/steam \
             $HOME/.local/share/Steam/ubuntu12_32/steamwebhelper \
             $HOME/.local/share/Steam/ubuntu12_32/gameoverlayui \
-            $HOME/.local/share/Steam/steamapps/common/Half-Life/hl_linux
+            $HOME/.local/share/Steam/steamapps/common/Half-Life/hl_linux \
+            $HOME/.local/share/Steam/steamapps/common/Counter-Strike\ Global\ Offensive\csgo_linux64
   # paxctl -c -v -m /lib/i386-linux-gnu/ld-2.19.so
 fi
 
