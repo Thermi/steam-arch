@@ -53,6 +53,12 @@ RUN cd /tmp && \
     dpkg -i *.deb && \
     rm -f *.deb
 
+# Workaround2: Steam severely floods DNS requests on Linux, so let's use a DNS cache
+# (see https://github.com/ValveSoftware/steam-for-linux/issues/3401)
+RUN apt-get update && \
+    apt-get -y install dnsmasq
+COPY ./dnsmasq.conf /etc/dnsmasq.conf
+RUN cp /etc/resolv.conf /etc/resolv.dnsmasq
 
 # locale-gen: Generate locales based on /etc/locale.gen file
 # update-locale: Generate config /etc/default/locale (later read by /etc/pam.d/su, /etc/pam.d/login, /etc/pam.d/polkit-1)

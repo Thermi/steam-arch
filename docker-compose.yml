@@ -30,6 +30,7 @@ services:
       - /usr/X11R6/lib64:/h11_64:ro
       - /usr/lib:/h12_32:ro
       - /usr/lib64:/h13_64:ro
+    dns: steam # a DNS cache is needed to avoid upstream bug https://github.com/ValveSoftware/steam-for-linux/issues/3401
     devices:
       - /dev/nvidia0
       - /dev/nvidiactl
