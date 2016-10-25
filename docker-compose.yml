@@ -12,7 +12,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/machine-id:/etc/machine-id:ro
       - $XDG_RUNTIME_DIR/pulse:/run/user/1000/pulse
-      - data:/home
+      - ./data:/home/user
       # - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro
       # Ubuntu's NVIDIA driver:
       - /usr/lib/nvidia-361-prime:/h1_64:ro
