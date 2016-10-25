@@ -42,7 +42,7 @@ with the following GPU's:
 ## Requirements
 
 - [Docker](https://www.docker.com/)
-- (Optional) [Docker Compose](https://docs.docker.com/compose/)
+- [Docker Compose](https://docs.docker.com/compose/) minimum version 1.7.3
 
 
 # Building and launching Steam
