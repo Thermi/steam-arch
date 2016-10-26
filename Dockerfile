@@ -53,6 +53,12 @@ RUN cd /tmp && \
     dpkg -i *.deb && \
     rm -f *.deb
 
+# Workaround2: Steam severely floods DNS requests on Linux, so let's use a DNS cache
+# (see https://github.com/ValveSoftware/steam-for-linux/issues/3401)
+RUN apt-get update && \
+    apt-get -y install dnsmasq
+COPY ./dnsmasq.conf /etc/dnsmasq.conf
+RUN cp /etc/resolv.conf /etc/resolv.dnsmasq
 
 # Fix bug https://github.com/arno01/steam/issues/11 where Pulseaudio crashes
 # microphone is accessed via push-to-talk.

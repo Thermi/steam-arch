@@ -12,7 +12,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/machine-id:/etc/machine-id:ro
       - $XDG_RUNTIME_DIR/pulse:/run/user/1000/pulse
-      - data:/home
+      - ./data:/home/user
       # - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro
       # Ubuntu's NVIDIA driver:
       - /usr/lib/nvidia-361-prime:/h1_64:ro
@@ -30,6 +30,7 @@ services:
       - /usr/X11R6/lib64:/h11_64:ro
       - /usr/lib:/h12_32:ro
       - /usr/lib64:/h13_64:ro
+    dns: steam # a DNS cache is needed to avoid upstream bug https://github.com/ValveSoftware/steam-for-linux/issues/3401
     devices:
       - /dev/nvidia0
       - /dev/nvidiactl

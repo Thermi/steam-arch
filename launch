@@ -5,6 +5,8 @@
 #
 exec 2>&1
 
+service dnsmasq start
+
 #
 # Befriend with grsecurity patched Linux kernel
 #
