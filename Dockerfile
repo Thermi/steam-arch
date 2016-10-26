@@ -42,7 +42,7 @@ RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise stea
 # Workaround missing lib in .local/share/Steam/ubuntu12_32/steamclient.so
 RUN ln -sv libudev.so.1 /lib/i386-linux-gnu/libudev.so.0
 
-# Workaround: Ubuntu 16.04 doesn't have libgcrypt11 nor libjson-c3, so we take 
+# Workaround: Ubuntu 16.04 doesn't have libgcrypt11 nor libjson-c3, so we take
 # then from trusty
 # libcryptot11 is required by Half-Life based games
 # TODO: use debian mirrors if possible?
@@ -53,6 +53,10 @@ RUN cd /tmp && \
     dpkg -i *.deb && \
     rm -f *.deb
 
+
+# Fix bug https://github.com/arno01/steam/issues/11 where Pulseaudio crashes
+# microphone is accessed via push-to-talk.
+RUN echo "enable-shm = no" >> /etc/pulse/client.conf
 
 # locale-gen: Generate locales based on /etc/locale.gen file
 # update-locale: Generate config /etc/default/locale (later read by /etc/pam.d/su, /etc/pam.d/login, /etc/pam.d/polkit-1)
