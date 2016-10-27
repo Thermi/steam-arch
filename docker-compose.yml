@@ -1,8 +1,5 @@
 version: '2'
 
-volumes:
-  data: {}
-
 services:
   steam:
     image: andrey01/steam
