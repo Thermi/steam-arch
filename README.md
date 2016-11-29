@@ -67,7 +67,7 @@ function docker_helper() {
 }
 
 function steam() {
-    docker_helper $FUNCNAME $@
+    docker_helper "$FUNCNAME" "$@"
 }
 ```
 
