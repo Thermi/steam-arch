@@ -48,7 +48,7 @@ RUN ln -sv libudev.so.1 /lib/i386-linux-gnu/libudev.so.0
 # TODO: use debian mirrors if possible?
 ADD http://archive.ubuntu.com/ubuntu/pool/main/libg/libgcrypt11/libgcrypt11_1.5.3-2ubuntu4_i386.deb /tmp/libgcrypt11_i386.deb
 ADD http://archive.ubuntu.com/ubuntu/pool/main/libg/libgcrypt11/libgcrypt11_1.5.3-2ubuntu4_amd64.deb /tmp/libgcrypt11_amd64.deb
-ADD http://ftp.de.debian.org/debian/pool/main/j/json-c/libjson-c3_0.12.1-1_amd64.deb /tmp/libjson-c3_amd64.deb
+ADD http://ftp.de.debian.org/debian/pool/main/j/json-c/libjson-c3_0.12.1-1.1_amd64.deb /tmp/libjson-c3_amd64.deb
 RUN cd /tmp && \
     dpkg -i *.deb && \
     rm -f *.deb
