@@ -59,4 +59,8 @@ export LD_LIBRARY_PATH
 # 1) Try to load host's Pulse library instead of the one from this image
 export LD_PRELOAD="$LD_PRELOAD:$(find /h{1..20}_{32,64} -type f -name "*libpulsecommon*" -print0 2>/dev/null| tr '\0' ':')"
 
+# BUGFIX: Steam is searching for libfreeblpriv3.so in tls/ directory
+ln -sv /usr/lib/x86_64-linux-gnu/nss /usr/lib/x86_64-linux-gnu/tls
+ln -sv /usr/lib/i386-linux-gnu/nss /usr/lib/i386-linux-gnu/tls
+
 su -p user -c "steam $@"
