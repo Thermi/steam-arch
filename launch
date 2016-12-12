@@ -42,12 +42,14 @@ if [ -e /dev/nvidiactl ]; then
 fi
 
 # Use libgcrypt provided by the Steam docker image (needed by HL1 engine games)
-export LD_PRELOAD="/lib/i386-linux-gnu/libgcrypt.so.11:/lib/x86_64-linux-gnu/libgcrypt.so.11"
+LD_PRELOAD="$LD_PRELOAD:/lib/i386-linux-gnu/libgcrypt.so.11:/lib/x86_64-linux-gnu/libgcrypt.so.11"
+export LD_PRELOAD
 
 #
 # Try to load host's libGL (generic or Nvidia 32/64-bit) drivers
 #
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$(echo /h{1..20}_{32,64} | tr ' ' ':')"
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$(echo /h{1..20}_{32,64} | tr ' ' ':')"
+export LD_LIBRARY_PATH
 
 #
 # In order to avoid the inconsistency error, when launching `csgo_linux64`
