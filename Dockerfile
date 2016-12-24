@@ -18,7 +18,7 @@ RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise stea
     apt-get -fy install && \
     apt-get -y install binutils pciutils pulseaudio libcanberra-gtk-module \
                        libopenal1 libnss3 libgconf-2-4 libxss1 libnm-glib4 \
-                       libnm-util2 libglu1-mesa locales \
+                       libnm-util2 libglu1-mesa locales libsdl2-image-2.0 \
                        steam-launcher \
                        mesa-utils:i386 \
                        libstdc++5 libstdc++5:i386 libbz2-1.0:i386 \
@@ -41,6 +41,10 @@ RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise stea
 
 # Workaround missing lib in .local/share/Steam/ubuntu12_32/steamclient.so
 RUN ln -sv libudev.so.1 /lib/i386-linux-gnu/libudev.so.0
+
+# Add missing symlink to make some games work (e.g. "Alien: Isolation")
+RUN ln -sv librtmp.so.1 /usr/lib/x86_64-linux-gnu/librtmp.so.0 && \
+    ln -sv librtmp.so.1 /usr/lib/i386-linux-gnu/librtmp.so.0
 
 # Workaround: Ubuntu 16.04 doesn't have libgcrypt11 nor libjson-c3, so we take
 # then from trusty
