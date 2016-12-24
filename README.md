@@ -20,10 +20,14 @@ Suggestions / PR's are welcomed!
 
 The following games have been tested:
 
-- Half-Life: Counter-Strike 1.6
 - Counter-Strike: Global Offensive
+- Alien: Isolation
+- PAYDAY 2
+- Insurgency
+- Half-Life: Counter-Strike 1.6
 - Iron Snout
 - Toribash
+- DeadCore (no sound)
 
 Tested in Ubuntu 16.04 LTS (64bit) and openSUSE Leap 42.1
 with the following GPU's:
