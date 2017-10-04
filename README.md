@@ -82,7 +82,7 @@ Then just use `steam` command to run Steam in docker.
 You may want to re-run this command later on in order to keep the image updated:
 
 ```sh
-docker build -t andrey01/steam .
+VERSION=$(git rev-parse HEAD | head -c8) make
 ```
 
 ## Troubleshooting
