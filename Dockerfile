@@ -11,7 +11,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise steam" > /etc/apt/sources.list.d/tmp-steam.list
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0xF24AEA9FB05498B7
 RUN dpkg --add-architecture i386
-RUN apt-get clean
 RUN apt-get update
 RUN apt-get -y upgrade
 RUN apt-get -y dist-upgrade
