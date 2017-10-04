@@ -8,15 +8,15 @@ ENV DEBIAN_FRONTEND noninteractive
 # 2. Install the dependencies
 # 3. Install the latest version of Steam
 # http://repo.steampowered.com/steam
-RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise steam" > /etc/apt/sources.list.d/tmp-steam.list && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0xF24AEA9FB05498B7 && \
-    dpkg --add-architecture i386 && \
-    apt-get clean && \
-    apt-get update && \
-    apt-get -y upgrade && \
-    apt-get -y dist-upgrade && \
-    apt-get -fy install && \
-    apt-get -y install binutils pciutils pulseaudio libcanberra-gtk-module \
+RUN echo "deb [arch=amd64,i386] http://repo.steampowered.com/steam/ precise steam" > /etc/apt/sources.list.d/tmp-steam.list
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0xF24AEA9FB05498B7
+RUN dpkg --add-architecture i386
+RUN apt-get clean
+RUN apt-get update
+RUN apt-get -y upgrade
+RUN apt-get -y dist-upgrade
+RUN apt-get -fy install
+RUN apt-get -y install binutils pciutils pulseaudio libcanberra-gtk-module \
                        libopenal1 libnss3 libgconf-2-4 libxss1 libnm-glib4 \
                        libnm-util2 libglu1-mesa locales libsdl2-image-2.0 \
                        steam-launcher \
