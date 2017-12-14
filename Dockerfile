@@ -31,7 +31,8 @@ RUN apt-get -y install binutils pciutils pulseaudio libcanberra-gtk-module \
                        libnm-glib4:i386 libnm-util2:i386 libusb-1.0-0:i386 \
                        libnss3:i386 libgconf-2-4:i386 libxss1:i386 libcurl3:i386 \
                        libv8-dev:i386 \
-                       libcanberra-gtk-module:i386 libpulse0:i386 attr && \
+                       libcanberra-gtk-module:i386 libpulse0:i386 attr \
+		       libva-x11-1:amd64 libva-x11-1:i386 && \
     rm -f /etc/apt/sources.list.d/tmp-steam.list && \
     rm -rf /var/lib/apt/lists
 
