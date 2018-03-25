@@ -41,26 +41,4 @@ if [ -e /dev/nvidiactl ]; then
   fi
 fi
 
-# Use libgcrypt provided by the Steam docker image (needed by HL1 engine games)
-LD_PRELOAD="$LD_PRELOAD:/lib/i386-linux-gnu/libgcrypt.so.11:/lib/x86_64-linux-gnu/libgcrypt.so.11"
-export LD_PRELOAD
-
-#
-# Try to load host's libGL (generic or Nvidia 32/64-bit) drivers
-#
-LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$(echo /h{1..20}_{32,64} | tr ' ' ':')"
-export LD_LIBRARY_PATH
-
-#
-# In order to avoid the inconsistency error, when launching `csgo_linux64`
-# Inconsistency detected by ld.so: dl-open.c: 689: _dl_open: Assertion `_dl_debug_initialize (0, args.nsid)->r_state == RT_CONSISTENT' failed!
-# Hint: to find out what's wrong, use `strace`
-#
-# 1) Try to load host's Pulse library instead of the one from this image
-export LD_PRELOAD="$LD_PRELOAD:$(find /h{1..20}_{32,64} -type f -name "*libpulsecommon*" -print0 2>/dev/null| tr '\0' ':')"
-
-# BUGFIX: Steam is searching for libfreeblpriv3.so in tls/ directory
-ln -sv /usr/lib/x86_64-linux-gnu/nss /usr/lib/x86_64-linux-gnu/tls
-ln -sv /usr/lib/i386-linux-gnu/nss /usr/lib/i386-linux-gnu/tls
-
 su -p user -c "steam $@"

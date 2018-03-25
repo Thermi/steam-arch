@@ -1,0 +1,8 @@
+#! /bin/bash
+
+if checkupdates | wc -l
+then
+    return 0
+else
+    return 1
+fi
