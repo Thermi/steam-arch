@@ -1,5 +1,5 @@
 # On the basis of the debian steam container by Andrey Arapov <andrey.arapov@nixaid.com>
-FROM archlinux/base
+FROM archimg/base
 MAINTAINER Noel Kuntze <noel@familie-kuntze.de>
 
 # To avoid problems with Dialog and curses wizards
